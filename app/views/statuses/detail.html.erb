@@ -1,0 +1,54 @@
+<h1>Statuses#index</h1>
+
+<div>
+  <% if @output == "redirect" %>
+    <p><% redirect_to action: 'index' %></p>
+  <% elsif @output == "Unable to connect to #{@hostname} using #{@username} and your password input" %>
+    <p><%= @output %> </p>
+  <% elsif @output == false %>
+    <p> You have no outstanding tasks</p>
+    <% @output2.lines.each do |line| %>
+        <%= line %>
+    <% end %> 
+  <% else %>
+
+    <table class="listing" summary="qstat">
+      <tr class="header">
+        <th>Job ID</th>
+        <th>Prior</th>
+        <th>Name</th>
+        <th>User</th>
+        <th>State</th>
+        <th>Submit Date</th>
+        <th>Submit Time</th>
+        <th>Queue</th>
+        <th>Slots</th>
+      </tr>
+
+  	<% for i in 0..@job_id.count %>
+  	  <tr class="item">
+
+  		<td><%= @job_id[i] %></td>
+  		<td><%= @prior[i] %></td>
+  		<td><%= @name[i] %></td>
+  		<td><%= @user[i] %></td>
+  		<td><%= @state[i] %></td>
+  		<td><%= @submit_date[i] %></td>
+  		<td><%= @submit_time[i] %></td>
+  		<td><%= @queue[i] %></td>
+  		<td><%= @slots[i] %></td>
+
+  	<% end %>
+       
+        
+      </tr>
+
+    </table>
+    
+    <% @output2.lines.each do |line| %>
+        <%= line %>
+    <% end %> 
+
+  <% end %>
+ 
+  </div>
