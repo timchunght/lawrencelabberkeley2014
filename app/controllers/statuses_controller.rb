@@ -60,9 +60,13 @@ class StatusesController < ApplicationController
 
         if @name.length == 0
           @output = false
+          ssh.close
+          
         else
         
           @output2 = ssh.exec!("find")
+
+
 
           @output2.lines.each do |line|
             @file_locs << line
@@ -82,6 +86,8 @@ class StatusesController < ApplicationController
             end
           end
 
+          ssh.close
+
         end
 
 
@@ -89,6 +95,7 @@ class StatusesController < ApplicationController
 
     end
     
+
  
     #%x[ perl ~/Desktop/patmatch_1.2/patmatch.pl -n GNATATNC ~/Desktop/patmatch_1.2/step-1-Brassica1kb5primeupstreamfasta.faa 0 i ]
 
