@@ -13,8 +13,8 @@ class StatusesController < ApplicationController
       #put this in index.html.erb <% @cmd.lines.each do |line|%> <td><%= line %></td> <% end %>
       #@cmd = #%x[ ssh -X timc@fred.cchem.berkeley.edu ] 
       @hostname = "fred.cchem.berkeley.edu"
-      @username = @status.user_name
-      @password = @status.password
+      @username = @status.user_name #Not saved in database
+      @password = @status.password #Not saved in database
       @cmd = "qstat"
       @job_id = Array.new
       @prior = Array.new
