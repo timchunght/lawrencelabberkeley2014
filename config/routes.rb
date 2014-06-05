@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
 
 
- 
+  root 'statuses#index'
 
   # get "demo/index"
   match ':controller(/:action(/:id))', :via => [:get, :post]

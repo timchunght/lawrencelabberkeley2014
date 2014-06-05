@@ -1,4 +1,6 @@
 class StatusesController < ApplicationController
+
+
   def index
     @status = Status.new
   end
@@ -23,6 +25,9 @@ class StatusesController < ApplicationController
       @submit_time = Array.new
       @queue = Array.new
       @slots = Array.new
+      @file_locs = Array.new
+      @running_locs = Array.new
+      @tasks_info = Array.new
 
       begin
         ssh = Net::SSH.start(@hostname, @username, :password => @password)
@@ -55,10 +60,29 @@ class StatusesController < ApplicationController
 
         if @name.length == 0
           @output = false
-        end
+        else
         
-        @output2 = ssh.exec!("ll")
-        ssh.close
+          @output2 = ssh.exec!("find")
+
+          @output2.lines.each do |line|
+            @file_locs << line
+          end
+
+          @job_id.each do |id|
+            @running_locs << @file_locs.select {|s| s.include? id.to_s}.to_s
+          end
+
+          @running_locs.each do |loc|
+            @location = (extract_file_dir(loc) + "/" + extract_file_name(loc) + ".out").to_s
+            if @location[0...1] == "/"
+              @location = @location[1...@location.length]
+              @tasks_info << ssh.exec!("ll " + @location)
+            else
+              @tasks_info << ssh.exec!("ll " + @location)
+            end
+          end
+
+        end
 
 
       end
@@ -93,6 +117,21 @@ class StatusesController < ApplicationController
       return false
     end
   
+  end
+
+
+
+  def extract_file_name(string)
+    array = string.split("/")
+    return string.split("/")[array.length-1].split(".")[0].to_s #this gives the file name; for example "./gaussian/vco.job.o189868" returns "vco"
+    
+  end
+
+  def extract_file_dir(string)
+    array = string.split("/")
+    array.delete_at(0)
+    array.delete_at(array.length-1)
+    return array.join('/').to_s
   end
 end
 

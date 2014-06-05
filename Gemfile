@@ -11,7 +11,7 @@ group :production do
   gem 'pg'
 end
 # Use SCSS for stylesheets
-gem 'sass-rails', '~> 4.0.3'
+#gem 'sass-rails', '~> 4.0.3'
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier', '>= 1.3.0'
 # Use CoffeeScript for .js.coffee assets and views
@@ -32,6 +32,9 @@ gem 'sdoc', '~> 0.4.0',          group: :doc
 gem 'spring',        group: :development
 
 gem 'net-ssh'
+
+
+#gem "flat-ui-rails"
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
